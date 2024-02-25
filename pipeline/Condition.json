@@ -1,0 +1,117 @@
+{
+	"name": "Condition",
+	"properties": {
+		"activities": [
+			{
+				"name": "Filter the Items",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.ListOfValues",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@greater(item(),5)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Rotating Items",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter the Items",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter the Items').output",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "AzureBobSource",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Dynamic_DataSet_basedForeach",
+									"type": "DatasetReference",
+									"parameters": {
+										"FolderName": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"FileName": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"ListOfValues": {
+				"type": "array",
+				"defaultValue": [
+					2,
+					4,
+					6,
+					8,
+					7,
+					5,
+					3,
+					1
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-15T05:14:58Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

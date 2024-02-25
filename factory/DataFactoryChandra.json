@@ -1,0 +1,9 @@
+{
+	"name": "DataFactoryChandra",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4e90e36f-2cb5-4a90-9a5f-4bbcc094b8f1",
+		"tenantId": "d25bc2fd-344a-4012-9c3a-b8671fe6d808"
+	}
+}

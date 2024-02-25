@@ -1,0 +1,73 @@
+{
+	"name": "Base Data Flow example",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "EmployeeDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "EmployeeSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "DepartmentDataset",
+						"type": "DatasetReference"
+					},
+					"name": "DepartmentSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OutputSinkDataset",
+						"type": "DatasetReference"
+					},
+					"name": "OutputSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinEmployeeDepartment"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EmployeeId as string,",
+				"          EmployeeName as string,",
+				"          DepartmentId as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> EmployeeSource",
+				"source(output(",
+				"          DepartmentId as string,",
+				"          DepartmentName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> DepartmentSource",
+				"EmployeeSource, DepartmentSource join(EmployeeSource@DepartmentId == DepartmentSource@DepartmentId,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinEmployeeDepartment",
+				"JoinEmployeeDepartment sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          DepartmentId as string,",
+				"          DepartmentName as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          EmployeeId,",
+				"          EmployeeName,",
+				"          DepartmentName",
+				"     )) ~> OutputSink"
+			]
+		}
+	}
+}

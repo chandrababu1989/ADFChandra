@@ -1,0 +1,19 @@
+{
+	"name": "AzureBlobDeleteDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OutputLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "output",
+				"container": "chandracontainer"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

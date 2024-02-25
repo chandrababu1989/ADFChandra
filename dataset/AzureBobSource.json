@@ -1,0 +1,21 @@
+{
+	"name": "AzureBobSource",
+	"properties": {
+		"description": "Azure bob source ",
+		"linkedServiceName": {
+			"referenceName": "InputLinkService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Data 2.0",
+				"folderPath": "Input",
+				"container": "chandracontainer"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
