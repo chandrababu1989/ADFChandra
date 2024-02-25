@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DataFactoryChandra"
+		},
+		"InputLinkService_connectionString": {
+			"value": ""
+		},
+		"OutputLinkedService_connectionString": {
+			"value": ""
+		},
+		"OutputLinkedServiceWithTrigger_connectionString": {
+			"value": ""
+		},
+		"EventBasedTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/609ef752-4017-4730-9b67-54060914654f/resourceGroups/RG_Chandra/providers/Microsoft.Storage/storageAccounts/chandrastotageaccount"
+		}
+	}
+}
